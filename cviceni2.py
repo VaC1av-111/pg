@@ -40,13 +40,16 @@ if __name__ == "__main__":
      
 
 def prumer(znamky):
-    if not znamky:
-        return 0.0
     return sum(znamky) / len(znamky)
 
 def naformatuj_text(zak):
-    return f"Student: {zak['jmeno']} {zak['prijmeni']}, Vek: {zak['rocnik']}, Obor: {zak['obor']}, Prumer: {prumer(zak['znamky'])}"
-
+    jmeno = zak["jmeno"]
+    prijmeni = zak["prijmeni"]
+    vek = zak["rocnik"]
+    obor = zak["obor"]
+    zaokrouhleno = round(prumer(zak["znamky"]), 2) # zaokrouhleni na 2 desetinna mista
+    text = f"Student: {jmeno} {prijmeni}, Vek: {vek}, Obor: {obor}, Prumer: {zaokrouhleno}"
+    return text
 
 if __name__ == "__main__":
     
@@ -59,7 +62,7 @@ if __name__ == "__main__":
 
     student["obor"] = "Informatika"
     student["rocnik"] += 1
-    print(f"student['znamky'][2]")
+
     print(naformatuj_text(student))  # vypise "Student Jan Novak, Vek 23, Obor: Informatika, Prumer: 1.6666666666666667"""
 
 
