@@ -20,7 +20,6 @@ if __name__ == "__main__":
     print(je_prvocislo(cislo))                  #Vypíše jestli je číslo prvočíslo True/False
 
 
-
     print("Testy:")
     print(je_prvocislo(1))      #False
     print(je_prvocislo(2))      #True
