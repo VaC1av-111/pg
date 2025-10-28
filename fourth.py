@@ -1,15 +1,37 @@
 def je_tah_mozny(figurka, cilova_pozice, obsazene_pozice):
-    """
-    Ověří, zda se figurka může přesunout na danou pozici.
+    typ = figurka["typ"]
+    radek, sloupec = figurka["pozice"]
+    radek, sloupec = startovni_pozice
+    cilovy_radek, cilovy_sloupec = cilova_pozice
 
-    :param figurka: Slovník s informacemi o figurce (typ, pozice).
-    :param cilova_pozice: Cílová pozice na šachovnici jako n-tice (řádek, sloupec).
-    :param obsazene_pozice: Množina obsazených pozic na šachovnici.
-    
-    :return: True, pokud je tah možný, jinak False.
-    """
-    # Implementace pravidel pohybu pro různé figury zde.
-    return False
+    if not (1 <= cilovy_radek <= 8 and 1 <= cilovy_sloupec <= 8):
+        return False  # Cílová pozice je mimo šachovnici
+
+    if cilova_pozice in obsazene_pozice:
+        return False  # Cílová pozice je obsazená jinou figurou
+
+rozdil_radek = cilovy_radek - radek
+rozdil_sloupec = cilovy_sloupec - sloupec
+
+def volna_cesta(krok_radek, krok_sloupec):
+    radek, sloupec = radek + krok_radek, sloupec + krok_sloupec
+    while (radek, sloupec) != (cilovy_radek, cilovy_sloupec):
+        if (radek, sloupec) in obsazene_pozice:
+            return False
+        radek += krok_radek
+        sloupec += krok_sloupec
+    return True
+
+#Typ figurky a její pohyb
+if typ == "pěšec":
+        if rozdil_radek == 1 and rozdil_sloupec == 0:
+            return True
+        else:
+            return False
+        
+
+
+
 
 
 if __name__ == "__main__":
