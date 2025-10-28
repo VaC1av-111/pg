@@ -1,38 +1,85 @@
 def je_tah_mozny(figurka, cilova_pozice, obsazene_pozice):
     typ = figurka["typ"]
-    radek, sloupec = figurka["pozice"]
-    radek, sloupec = startovni_pozice
+    start = figurka["pozice"]
+    start_radek, start_sloupec = start
     cilovy_radek, cilovy_sloupec = cilova_pozice
 
     if not (1 <= cilovy_radek <= 8 and 1 <= cilovy_sloupec <= 8):
         return False  # Cílová pozice je mimo šachovnici
+    
+    if cilova_pozice == start:
+        return False
 
     if cilova_pozice in obsazene_pozice:
         return False  # Cílová pozice je obsazená jinou figurou
 
-rozdil_radek = cilovy_radek - radek
-rozdil_sloupec = cilovy_sloupec - sloupec
+    rozdil_radek = cilovy_radek - start_radek
+    rozdil_sloupec = cilovy_sloupec - start_sloupec
 
-def volna_cesta(krok_radek, krok_sloupec):
-    radek, sloupec = radek + krok_radek, sloupec + krok_sloupec
-    while (radek, sloupec) != (cilovy_radek, cilovy_sloupec):
-        if (radek, sloupec) in obsazene_pozice:
-            return False
-        radek += krok_radek
-        sloupec += krok_sloupec
-    return True
-
-#Typ figurky a její pohyb
-if typ == "pěšec":
-        if rozdil_radek == 1 and rozdil_sloupec == 0:
+   #Typ figurky a její pohyb
+    if typ == "pěšec":
+        if rozdil_sloupec == 0 and rozdil_radek == 1 and cilova_pozice not in obsazene_pozice: #jedna v před
             return True
+        
+        if rozdil_sloupec == 0 and rozdil_radek == 2 and start_radek == 1: #dvojkrok
+            if (start_radek + 1, start_sloupec) not in obsazene_pozice: #volná pozice mezi startem a cílem
+                return True
+        return False
+    
+    if typ == "jezdec":
+        if (abs(rozdil_radek), abs(rozdil_sloupec)) in [(2, 1), (1, 2)]:
+            return True
+        return False
+    
+    if typ == "věž":
+        if rozdil_radek != 0 and rozdil_sloupec != 0:
+            return False
+        krok_r = 0 if rozdil_radek == 0 else (1 if rozdil_radek > 0 else -1)
+        krok_s = 0 if rozdil_sloupec == 0 else (1 if rozdil_sloupec > 0 else -1)
+        r, s = start_radek + krok_r, start_sloupec + krok_s
+        while (r, s) != (cilovy_radek, cilovy_sloupec):
+            if (r, s) in obsazene_pozice:
+                return False
+            r += krok_r
+            s += krok_s
+        return True
+    
+    if typ == "střelec":
+        if abs(rozdil_radek) != abs(rozdil_sloupec):
+            return False
+        krok_r = 1 if rozdil_radek > 0 else -1
+        krok_s = 1 if rozdil_sloupec > 0 else -1
+        r, s = start_radek + krok_r, start_sloupec + krok_s
+        while (r, s) != (cilovy_radek, cilovy_sloupec):
+            if (r, s) in obsazene_pozice:
+                return False
+            r += krok_r
+            s += krok_s
+        return True
+                
+    if typ == "dáma":
+        # buď po řádku/sloupci nebo diagonálně
+        if rozdil_radek == 0 or rozdil_sloupec == 0:
+            krok_r = 0 if rozdil_radek == 0 else (1 if rozdil_radek > 0 else -1)
+            krok_s = 0 if rozdil_sloupec == 0 else (1 if rozdil_sloupec > 0 else -1)
+        elif abs(rozdil_radek) == abs(rozdil_sloupec):
+            krok_r = 1 if rozdil_radek > 0 else -1
+            krok_s = 1 if rozdil_sloupec > 0 else -1
         else:
             return False
+        r, s = start_radek + krok_r, start_sloupec + krok_s
+        while (r, s) != (cilovy_radek, cilovy_sloupec):
+            if (r, s) in obsazene_pozice:
+                return False
+            r += krok_r
+            s += krok_s
+        return True
         
+    if typ == "král":
+        return max(abs(rozdil_radek), abs(rozdil_sloupec)) == 1
 
 
-
-
+    return False
 
 if __name__ == "__main__":
     pesec = {"typ": "pěšec", "pozice": (2, 2)}
@@ -43,6 +90,7 @@ if __name__ == "__main__":
     kral = {"typ": "král", "pozice": (1, 4)}
     obsazene_pozice = {(2, 2), (8, 2), (3, 3), (5, 4), (8, 3), (8, 8), (6, 3), (1, 4)}
 
+    
     print(je_tah_mozny(pesec, (3, 2), obsazene_pozice))  # True
     print(je_tah_mozny(pesec, (4, 2), obsazene_pozice))  # False, protože pěšec se nemůže hýbat o dvě pole vpřed (pokud jeho výchozí pozice není v prvním řádku)
     print(je_tah_mozny(pesec, (1, 2), obsazene_pozice))  # False, protože pěšec nemůže couvat
