@@ -1,0 +1,2 @@
+Alice, 25, student
+BOB, 22, pekař
