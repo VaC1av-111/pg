@@ -95,8 +95,9 @@ class Bishop(Piece):
         row, col = self.position
         moves = [
             (row + i, col + i) for i in range(-7, 8) if i != 0
-                ]       
-        +       [
+                
+                ]+[
+
             (row + i, col - i) for i in range(-7, 8) if i != 0
                 ]
         
@@ -168,8 +169,6 @@ class King(Piece):
         moves = [
                 (row + 1, col + 1), (row + 1, col - 1),
                 (row - 1, col + 1), (row - 1, col - 1),
-                (row + 1, col + 1), (row + 1, col - 1),
-                (row - 1, col + 1), (row - 1, col - 1)
                 ]+[
                 (row + 1, col), (row - 1, col),
                 (row, col + 1), (row, col - 1)
@@ -187,7 +186,11 @@ class King(Piece):
 
 if __name__ == "__main__":
     piece = Knight("black", (1, 2))
+    piece1 = King("white",(1,1))
+    piece2 = Bishop("white",(4,4))
     print(piece)
-    print(piece.possible_moves())
+    print (piece1)
+    print(piece2)
+    print(piece2.possible_moves())
 
     

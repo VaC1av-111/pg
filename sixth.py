@@ -14,6 +14,17 @@ def download_url_and_get_all_hrefs(url):
     hrefs = []
 
     response = requests.get(url)
+    if not response.ok:
+        return hrefs
+    
+    root = html.fromstring(response.content)
+    elements = root.xpath('//a/@href')
+    
+    for element in elements:
+        if element.startswith('http'):
+            hrefs.append(element)
+    
+        return hrefs
 
     if response.status_code == 200:
         hrefs = re.findall(r'href="(.*?)"', response.text)
