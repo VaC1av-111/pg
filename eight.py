@@ -10,8 +10,8 @@ def bin_to_dec(binarni_cislo):
     for znak in binarni_cislo:
         if znak == '1':
             vysledek = vysledek + mocnina
-            mocnina = mocnina * 2
-
+        mocnina = mocnina * 2
+           
     return vysledek
 
 
