@@ -1,0 +1,2 @@
+Volám funkci ahoj s parametry: ('Vlado',) a {}
+Volám funkci cau s parametry: () a {}
